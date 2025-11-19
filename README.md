@@ -4,6 +4,7 @@ This repository is a demo fullstack project prepared for testing. It uses **SQLi
 
 ## Quick start (local)
 
+
 ### Backend
 ```bash
 cd backend
