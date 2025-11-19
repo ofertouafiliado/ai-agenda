@@ -31,6 +31,7 @@ The frontend uses `/api` relative paths, so run it in the same machine and the d
 - Seller 2: vendedor2@aiagenda.test / password
 - Buyer: cliente@aiagenda.test / password
 
+
 ## Notes
 - This is a demo scaffold for testing flows: products, orders, invoice sending (simulated), marking delivery and commission payment (simulated).
 - To integrate real Melhor Envios, Mercado Pago or NF-e providers, add API keys and implement webhook handling in `backend/src/index.js`.
