@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String?
+  phone      String?
+  role       Role     @default(CLIENT)
+  createdAt  DateTime @default(now())
+  products   Product[] 
+  ordersAsBuyer Order[] @relation("buyer")
+  ordersAsSeller Order[] @relation("seller")
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  priceCents  Int
+  stock       Int
+  category    String
+  seller      User    @relation(fields: [sellerId], references: [id])
+  sellerId    String
+  createdAt   DateTime @default(now())
+  orders      OrderItem[]
+}
+
+model Order {
+  id           String @id @default(uuid())
+  buyer        User   @relation("buyer", fields: [buyerId], references: [id])
+  buyerId      String
+  seller       User   @relation("seller", fields: [sellerId], references: [id])
+  sellerId     String
+  totalCents   Int
+  status       OrderStatus @default(PAID)
+  createdAt    DateTime @default(now())
+  items        OrderItem[]
+  trackingCode String?
+  deliveredAt  DateTime?
+  invoiceSent  Boolean @default(false)
+  commissionPaid Boolean @default(false)
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  order     Order  @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  qty       Int
+  priceCents Int
+}
+
+enum Role { CLIENT PROVIDER SELLER ADMIN }
+enum OrderStatus { PAID AWAITING_SHIPMENT IN_TRANSIT DELIVERED CANCELLED }
