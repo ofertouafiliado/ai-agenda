@@ -15,7 +15,6 @@ npm run dev
 ```
 
 By default the backend will run on `http://localhost:4000`.
-
 ### Frontend
 ```bash
 cd frontend
